@@ -21,8 +21,10 @@ public class FogbugzHook implements AsyncPostReceiveRepositoryHook, RepositorySe
     @Override
     public void postReceive(RepositoryHookContext context, Collection<RefChange> refChanges) {
         String url = context.getSettings().getString("url");
+        Repository repository = context.getRepository();
+        String repoName = repository.getSlug();
 
-        log.info("Starting postReceive for FogbugzHook");
+        log.info("Starting postReceive FogbugzHook hook for repo {}", repoName);
 
         if (url != null) {
             try {
