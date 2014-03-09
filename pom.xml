@@ -10,12 +10,12 @@
     <version>1.0-SNAPSHOT</version>
 
     <organization>
-        <name>Example Company</name>
-        <url>http://www.example.com/</url>
+        <name>Proto Labs</name>
+        <url>http://www.protolabs.com/</url>
     </organization>
 
     <name>notify-fogbugz-hook</name>
-    <description>This is the com.protolabs:notify-fogbugz-hook plugin for Atlassian Stash.</description>
+    <description>This is a com.protolabs:notify-fogbugz-hook plugin for Atlassian Stash.</description>
     <packaging>atlassian-plugin</packaging>
 
     <dependencyManagement>

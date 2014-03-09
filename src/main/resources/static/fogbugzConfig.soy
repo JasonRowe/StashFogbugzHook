@@ -5,13 +5,23 @@
  * @param? errors
  */
 {template .formContents}
+ {call aui.form.textField}
+        {param id: 'bugzidregex' /}
+        {param value: $config['bugzidregex'] ? $config['bugzidregex'] : 'BugzID:([0-9]*)'  /}
+        {param labelContent}
+            {stash_i18n('stash.config.com.protolabs.FogbugzHook.config.label', 'BUGZID-REGEX')}
+        {/param}
+        {param descriptionText: stash_i18n('stash.config.com.protolabs.FogbugzHook.config.description', 'A Regex to parse BugzID from commit message') /}
+        {param extraClasses: 'long' /}
+        {param errorTexts: $errors ? $errors['bugzidregex'] : null /}
+    {/call}
     {call aui.form.textField}
         {param id: 'url' /}
         {param value: $config['url'] /}
         {param labelContent}
             {stash_i18n('stash.config.com.protolabs.FogbugzHook.config.label', 'URL')}
         {/param}
-        {param descriptionText: stash_i18n('stash.config.com.protolabs.FogbugzHook.config.description', 'A URL to be notified') /}
+        {param descriptionText: stash_i18n('stash.config.com.protolabs.FogbugzHook.config.description', 'A URL to be notified if BugzID in commit message') /}
         {param extraClasses: 'long' /}
         {param errorTexts: $errors ? $errors['url'] : null /}
     {/call}

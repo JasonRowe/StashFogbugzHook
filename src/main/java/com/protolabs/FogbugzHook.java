@@ -3,6 +3,8 @@ package com.protolabs;
 import java.util.List;
 import java.net.URL;
 import java.util.Collection;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.atlassian.stash.content.Changeset;
 import com.atlassian.stash.content.ChangesetsBetweenRequest;
@@ -38,10 +40,16 @@ public class FogbugzHook implements AsyncPostReceiveRepositoryHook, RepositorySe
     @Override
     public void postReceive(RepositoryHookContext context, Collection<RefChange> refChanges) {
         String url = context.getSettings().getString("url");
+        String regex = context.getSettings().getString("bugzidregex");
         Repository repository = context.getRepository();
         String repoName = repository.getSlug();
 
         log.info("Starting postReceive FogbugzHook hook for repo {}", repoName);
+
+        log.info("Configured URL {}", url);
+        log.info("Configured Regex {}", regex);
+
+        Pattern bugzIDPattern = Pattern.compile(regex);
 
         if (url != null) {
             try {
@@ -83,10 +91,16 @@ public class FogbugzHook implements AsyncPostReceiveRepositoryHook, RepositorySe
 
                         // For each of these changesets, send Fogbugz request as needed.
                         for (Changeset changeset : changesetsForRefChange) {
-                             String commitMessage = changeset.getMessage();
-                             log.info("CommitMessage - {}", commitMessage);
-                        }
+                            String commitMessage = changeset.getMessage();
 
+                            log.info("CommitMessage - {}", commitMessage);
+
+                            Matcher bugzIDMatcher = bugzIDPattern.matcher(commitMessage);
+                            
+                            while (bugzIDMatcher.find()){
+                                log.info("BugzID Found {}", bugzIDMatcher.group(1));
+                            }
+                        }
                     }
                     new URL(url).openConnection().getInputStream().close();
                 } catch (Exception e) {
@@ -99,6 +113,9 @@ public class FogbugzHook implements AsyncPostReceiveRepositoryHook, RepositorySe
     public void validate(Settings settings, SettingsValidationErrors errors, Repository repository) {
         if (settings.getString("url", "").isEmpty()) {
             errors.addFieldError("url", "Url field is blank, please supply one");
+        }
+         if (settings.getString("bugzidregex", "").isEmpty()) {
+            errors.addFieldError("bugzidregex", "Regex field is blank, please supply one");
         }
     }
 }
