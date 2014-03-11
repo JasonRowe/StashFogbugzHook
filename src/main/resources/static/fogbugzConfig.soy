@@ -7,9 +7,9 @@
 {template .formContents}
  {call aui.form.textField}
         {param id: 'bugzidregex' /}
-        {param value: $config['bugzidregex'] ? $config['bugzidregex'] : 'BugzID:([0-9]*)'  /}
+        {param value: $config['bugzidregex'] ? $config['bugzidregex'] : 'BugzID: ?([0-9]*)'  /}
         {param labelContent}
-            {stash_i18n('stash.config.com.protolabs.FogbugzHook.config.label', 'BUGZID-REGEX')}
+            {stash_i18n('stash.config.com.protolabs.FogbugzHook.config.label', 'Bug ID Regex')}
         {/param}
         {param descriptionText: stash_i18n('stash.config.com.protolabs.FogbugzHook.config.description', 'A Regex to parse BugzID from commit message') /}
         {param extraClasses: 'long' /}
