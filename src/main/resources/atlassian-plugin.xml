@@ -2,7 +2,7 @@
     <plugin-info>
         <description>A post-receive hook that notifies a Fogbugz remote server when changes are pushed to Stash</description>
         <vendor name="JasonRowe" url="http://www.jasonrowe.com"/>
-        <version>1.0</version>
+        <version>2.0</version>
     </plugin-info>
 
     <repository-hook key="fogbugzHook" name="FogbugzHook" class="com.protolabs.FogbugzHook">
