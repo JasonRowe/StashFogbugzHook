@@ -95,12 +95,14 @@ public class FogbugzHook implements AsyncPostReceiveRepositoryHook, RepositorySe
                             String changesetId = changeset.getId();
                             log.info("ChangesetID {}", changesetId);
 
-                            String fileName = getFileName(changesetId, repository);
+                            Collection<String> fileNames = getFileNames(changesetId, repository);
 
-                            log.info("FileName {}", fileName);
+                            for (String fileName : fileNames) {
+                                log.info("FileName {}", fileName);
 
-                            notifyFogbugz(parentID, currentID, bugzID, fileName, repository, url);
-                            log.info("Fogbugz Notified {}", url);
+                                notifyFogbugz(parentID, currentID, bugzID, fileName, repository, url);
+                                log.info("Fogbugz Notified {}", url);
+                            }
                         }
                     }
                 }
@@ -136,8 +138,8 @@ public class FogbugzHook implements AsyncPostReceiveRepositoryHook, RepositorySe
             }
     }
 
-    // Create detailed request to get filename
-    private String getFileName(String changesetId, Repository repository){
+    // Create detailed request to get filenames
+    private Collection<String> getFileNames(String changesetId, Repository repository){
         DetailedChangesetsRequest detailedRequest = new DetailedChangesetsRequest.Builder(repository)
         .changesetId(changesetId)
         .ignoreMissing(false)
@@ -154,24 +156,23 @@ public class FogbugzHook implements AsyncPostReceiveRepositoryHook, RepositorySe
         detailPage = commitService.getDetailedChangesets(detailedRequest, pageRequestDetail);
 
         log.info("getDetailedChangesets finished");
-        String fileName = "";
-                               
+
+        Collection<String> fileNames = Lists.newArrayList();
+
         // Getting the change and finding the path
         for (DetailedChangeset detailedChangeset : detailPage.getValues()){
             log.info("found detailedChangeset");
             for(Change change : detailedChangeset.getChanges().getValues()){
                 log.info("found change");
 
-                if(fileName.isEmpty()) {
-                    fileName = change.getPath().toString();
-                }
-                else {
-                    fileName = "-" + fileName + change.getPath().toString();
+                if(!change.getPath().toString().isEmpty())
+                {
+                    fileNames.add(change.getPath().toString());
                 }
             }
         }
 
-        return fileName;
+        return fileNames;
     }
 
     // For each RefChange, use the fromHash and toHash to extract the individual changesets: 
