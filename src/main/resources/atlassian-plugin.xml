@@ -1,4 +1,4 @@
-<atlassian-plugin name="Fogbugz Hook" key="FogbugzHook" plugins-version="2">
+<atlassian-plugin name="Fogbugz Hook" key="FogbugzHook" plugins-version="2.1">
     <plugin-info>
         <description>A post-receive hook that notifies a Fogbugz remote server when changes are pushed to Stash</description>
         <vendor name="JasonRowe" url="http://www.jasonrowe.com"/>
