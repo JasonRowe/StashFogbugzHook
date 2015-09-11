@@ -15,17 +15,16 @@
     </organization>
 
     <name>notify-fogbugz-hook</name>
-    <description>This is a com.protolabs:notify-fogbugz-hook plugin for Atlassian Stash.</description>
+    <description>This is a fogbugz-hook plugin for Atlassian Bitbucket.</description>
     <packaging>atlassian-plugin</packaging>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.atlassian.stash</groupId>
-                <artifactId>stash-parent</artifactId>
-                <version>${stash.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
+                <groupId>com.atlassian.bitbucket.server</groupId>
+                <artifactId>bitbucket-api</artifactId>
+                <version>${bitbucket.version}</version>
+                <scope>provided</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -92,18 +91,18 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>com.atlassian.maven.plugins</groupId>
-                <artifactId>maven-amps-plugin</artifactId>
-                <version>${amps.version}</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <products>
-                        <product>
-                            <id>stash</id>
-                            <instanceId>stash</instanceId>
-                            <version>${stash.version}</version>
-                            <dataVersion>${stash.data.version}</dataVersion>
-                        </product>  
+              <groupId>com.atlassian.maven.plugins</groupId>
+                 <artifactId>bitbucket-maven-plugin</artifactId>
+                 <version>${amps.version}</version>
+                 <extensions>true</extensions>
+                 <configuration>
+                     <products>
+                         <product>
+                             <id>bitbucket</id>
+                             <instanceId>bitbucket</instanceId>
+                             <version>${bitbucket.version}</version>
+                             <dataVersion>${bitbucket.data.version}</dataVersion>
+                        </product>
                     </products>
                 </configuration>
             </plugin>
@@ -116,12 +115,12 @@
             </plugin>
         </plugins>
     </build>
-    
- <properties>
-        <stash.version>3.3.0</stash.version>
-        <stash.data.version>3.3.0</stash.data.version>
-        <amps.version>5.0.4</amps.version>
-        <plugin.testrunner.version>1.2.0</plugin.testrunner.version>
+
+    <properties>
+      <bitbucket.version>4.0.0-eap3</bitbucket.version>
+      <bitbucket.data.version>${bitbucket.version}</bitbucket.data.version>
+      <amps.version>6.1.0</amps.version>
+      <plugin.testrunner.version>1.2.0</plugin.testrunner.version>
     </properties>
-    
+
 </project>
